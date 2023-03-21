@@ -161,7 +161,7 @@ def avg_mean_std_by_city_traffic( df ):
 # IMPORTANDO DATAFRAME
 #=====================================================================================   
 #df = pd.read_csv(r'C:\Users\Administrador\Documents\repos\03_FTC\FTC_PROJETOS\analise_com_streamlit\dataset\train.csv')
-df = pd.read_csv('..\dataset\train.csv')
+df = pd.read_csv('dataset/train.csv')
 #=====================================================================================
 # LIMPEZA DOS DADOS 
 #=====================================================================================
