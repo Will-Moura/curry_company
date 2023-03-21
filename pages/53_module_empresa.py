@@ -125,8 +125,7 @@ def country_maps( df ):
 #=====================================================================================
 # IMPORTANDO DATASET
 #===================================================================================== 
-#df = pd.read_csv(r'C:\Users\Administrador\Documents\repos\03_FTC\FTC_PROJETOS\analise_com_streamlit\dataset\train.csv')
-df = pd.read_csv('dataset\train.csv')
+df = pd.read_csv('../dataset\train.csv')
 #=====================================================================================
 # LIMPANDO DADOS
 #=====================================================================================
