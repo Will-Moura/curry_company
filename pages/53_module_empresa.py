@@ -161,7 +161,7 @@ date_slider = st.sidebar.slider(
     format='DD-MM-YYYY' )
 min_value=pd.datetime( 2022, 4 , 6 )
 #Exibindo o slider escolhido.
-st.header( date_slider )
+
 
 ## criando seleção
 st.sidebar.markdown("## Selecione as condições de transito que deseja:") 
