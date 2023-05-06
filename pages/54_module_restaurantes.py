@@ -161,7 +161,7 @@ def avg_mean_std_by_city_traffic( df ):
 # IMPORTANDO DATAFRAME
 #=====================================================================================   
 #df = pd.read_csv(r'C:\Users\Administrador\Documents\repos\03_FTC\FTC_PROJETOS\analise_com_streamlit\dataset\train.csv')
-df = pd.read_csv('dataset/train.csv')
+df = pd.read_csv('dataset\train.csv')
 #=====================================================================================
 # LIMPEZA DOS DADOS 
 #=====================================================================================
@@ -231,7 +231,6 @@ with tab1:
     with st.container():
         st.markdown('All Metrics')
         st.markdown("""---""")
-        st.markdown('Tempo médio por cidade')
         
         col1, col2, col3= st.columns( 3, gap='large') 
 
@@ -241,7 +240,6 @@ with tab1:
      
 
         with col2: 
-
             avg = delivery_distance( df, fig=False)
             col2.metric( "A distancia média de todas as entregas é:", avg )
 
