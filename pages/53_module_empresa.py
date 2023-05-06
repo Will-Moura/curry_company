@@ -5,13 +5,15 @@ import plotly.express as px
 import streamlit as st
 from PIL import Image
 import folium
+from folium.plugins import MarkerCluster
+import numpy as np
 
 from streamlit_folium import folium_static
 
 #=====================================================================================
 # Expandindo o layut da pagina do DASHBOARD:
 #===================================================================================== 
-st.set_page_config( page_title='Visão Empresa', layout='wide')
+st.set_page_config( page_title='Visão Empresa', layout='wide', page_icon='🍴')
 
 
 #=====================================================================================
@@ -109,23 +111,39 @@ def order_share_by_week( df ):
     st.plotly_chart(fig, use_container_width=True)
     return  fig 
 
-def country_maps( df ):
-    cols = ['City', 'Road_traffic_density', 'Delivery_location_latitude', 'Delivery_location_longitude']
-    df_aux = df.loc[:, cols].groupby(['City', 'Road_traffic_density']).median().reset_index()
-    map_ = folium.Map() 
-    for index, location_info in df_aux.iterrows():
-        folium.Marker( [location_info['Delivery_location_latitude'], 
-                        location_info['Delivery_location_longitude']],
-                        popup=location_info[['City', 'Road_traffic_density']] ).add_to ( map_ )
+# def country_maps( df ):
+#     cols = ['City', 'Road_traffic_density', 'Delivery_location_latitude', 'Delivery_location_longitude']
+#     df_aux = df.loc[:, cols].groupby(['City', 'Road_traffic_density']).median().reset_index()
+#     map_ = folium.Map() 
+#     for index, location_info in df_aux.iterrows():
+#         folium.Marker( [location_info['Delivery_location_latitude'], 
+#                         location_info['Delivery_location_longitude']],
+#                         popup=location_info[['City', 'Road_traffic_density']] ).add_to ( map_ )
     
-        folium_static( map_, width=1024, height=600 )
-        return None
+#         folium_static( map_, width=1024, height=600 )
+#         return None
+
+ 
+def country_maps(df):
+    map_ = folium.Map(location=[df['Delivery_location_latitude'].mean(), df['Delivery_location_latitude'].mean()], zoom_start=3, tiles='OpenStreetMap')
+
+    marker_cluster = MarkerCluster().add_to(map_)
+
+    for lat, lon, name, traffic in zip(df['Delivery_location_latitude'], df['Delivery_location_latitude'], df['City'], df['Road_traffic_density']):
+        folium.Marker(
+            location=[lat, lon],
+            popup=f"{name}\n{traffic}",
+            icon=folium.Icon(icon='pushpin')
+        ).add_to(marker_cluster)
+        
+    return map_
 
 #----------------------- INICIO DA ESTRUTURA LÓGICA ---------------------
 #=====================================================================================
 # IMPORTANDO DATASET
 #===================================================================================== 
-df = pd.read_csv('dataset/train.csv')
+#df = pd.read_csv(r'C:\Users\Administrador\Documents\repos\03_FTC\FTC_PROJETOS\analise_com_streamlit\dataset\train.csv')
+df = pd.read_csv('dataset\train.csv')
 #=====================================================================================
 # LIMPANDO DADOS
 #=====================================================================================
@@ -161,7 +179,7 @@ date_slider = st.sidebar.slider(
     format='DD-MM-YYYY' )
 min_value=pd.datetime( 2022, 4 , 6 )
 #Exibindo o slider escolhido.
-
+st.header( date_slider )
 
 ## criando seleção
 st.sidebar.markdown("## Selecione as condições de transito que deseja:") 
@@ -232,4 +250,5 @@ with tab3:
         st.markdown('### 6° Gráfico')
 
         country_maps( df )
+        
         
