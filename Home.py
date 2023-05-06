@@ -26,6 +26,9 @@ st.markdown(
     """ 
     Grouth Dashboard foi construído para acompanhar as métricas de crescimento dos Entregadores e Restaurantes.
     ### Como utilizar esse Grouth Dashboard?
+    
+    Há uma barra lateral ao lado esquerdo da página que, se estiver fechada, pode ser ativada clicando na seta. 
+    Nela se abrem as novas páginas com descrito abaixo:
 
     - Visão Empresa: 
        - Visão Gerencial: Métricas gerais de comportamento.
