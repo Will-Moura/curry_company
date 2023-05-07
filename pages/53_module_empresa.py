@@ -82,14 +82,14 @@ def distrib_pedid_tráfego( df ):
     df_aux['perc_ID'] = 100 * ( df_aux['ID'] / df_aux['ID'].sum() )
             
     fig = px.pie( df_aux, values='perc_ID', names='Road_traffic_density' )   
-    st.plotly_chart(fig, use_container_width=True)
+    
     return fig
 #gráfic scatter
 def delivery_city_traffic( df ):
     df_aux = df.loc[:, ['ID', 'City', 'Road_traffic_density']].groupby(['City', 'Road_traffic_density']).count().reset_index() 
     #Plotando o grafico de bolha: 
     fig = px.scatter( df_aux, x='City', y='Road_traffic_density', size='ID', color='City')
-    st.plotly_chart(fig, use_container_width=True)
+    
     return fig
 def order_by_week( df ):
     #Criando coluna de semana, mostra o numero da semana que essa data está. 
@@ -108,7 +108,7 @@ def order_share_by_week( df ):
     df_aux['order_by_delivery'] = df_aux['ID'] / df_aux['Delivery_person_ID']
     # gráfico
     fig = px.line( df_aux, x='week_of_year', y='order_by_delivery' )
-    st.plotly_chart(fig, use_container_width=True)
+    
     return  fig 
 
 # def country_maps( df ):
