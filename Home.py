@@ -13,23 +13,15 @@ st.set_page_config(
     ) 
 
 #image_path = 'C:\\Users\\Administrador\\Documents\\repos\\03_FTC\\FTC_PROJETOS\\analise_com_streamlit\\imagem_ds1.png'
-st.container(): 
-    col1, col2 = st.columns( 2 ) 
-    
-    with col1: 
-        image = Image.open( 'imagem1.png' ) 
-        st.sidebar.image( image, width=70 )
-    
-    with col2: 
-        st.sidebar.markdown( '## Curry Company' )
-        
-
+image = Image.open( 'imagem1.png' ) 
+st.sidebar.image( image, width=70 )
 
 #textos
+st.sidebar.markdown( '### Curry Company' )
 st.sidebar.markdown( '## Fastest Delivery in Town' ) 
 st.sidebar.markdown( """---""") 
 
-st.write( "# Curry Company Grouth Dashboard" ) 
+st.write( "# Curry Company Grouth Dashboard" )  
 st.markdown(
     """ 
     Grouth Dashboard foi construído para acompanhar as métricas de crescimento dos Entregadores e Restaurantes.
