@@ -125,17 +125,15 @@ def order_share_by_week( df ):
 
  
 def country_maps(df):
-    map_ = folium.Map(location=[df['Delivery_location_latitude'].mean(), df['Delivery_location_latitude'].mean()], zoom_start=3, tiles='OpenStreetMap')
-
-    marker_cluster = MarkerCluster().add_to(map_)
-
-    for lat, lon, name, traffic in zip(df['Delivery_location_latitude'], df['Delivery_location_latitude'], df['City'], df['Road_traffic_density']):
+    cols = ['City', 'Road_traffic_density', 'Delivery_location_latitude', 'Delivery_location_longitude']
+    df_aux = df.loc[:, cols].groupby(['City', 'Road_traffic_density']).median().reset_index()
+    map_ = folium.Map()
+    for index, location_info in df_aux.iterrows():
         folium.Marker(
-            location=[lat, lon],
-            popup=f"{name}\n{traffic}",
+            location=[location_info['Delivery_location_latitude'], location_info['Delivery_location_longitude']],
+            popup=f"{location_info['City']}\n{location_info['Road_traffic_density']}",
             icon=folium.Icon(icon='pushpin')
-        ).add_to(marker_cluster)
-        
+        ).add_to(map_)
     return map_
 
 #----------------------- INICIO DA ESTRUTURA LÓGICA ---------------------
