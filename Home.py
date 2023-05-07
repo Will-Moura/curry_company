@@ -14,7 +14,7 @@ st.set_page_config(
 
 #image_path = 'C:\\Users\\Administrador\\Documents\\repos\\03_FTC\\FTC_PROJETOS\\analise_com_streamlit\\imagem_ds1.png'
 image = Image.open( 'imagem1.png' ) 
-st.sidebar.image( image, width=90 )
+st.sidebar.image( image, width=70 )
 
 #textos
 st.sidebar.markdown( '### Curry Company' )
