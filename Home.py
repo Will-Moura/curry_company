@@ -18,7 +18,7 @@ st.container():
     
     with col1: 
         image = Image.open( 'imagem1.png' ) 
-st.sidebar.image( image, width=70 )
+        st.sidebar.image( image, width=70 )
     
     with col2: 
         st.sidebar.markdown( '## Curry Company' )
