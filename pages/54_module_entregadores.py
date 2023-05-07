@@ -23,14 +23,12 @@ st.set_page_config( page_title='Visão Empresa', layout='wide')
 def clean_code( df ):
                 """
                    Esta função tem a responsabilidade de limpar o dataframe
-
                    Tipos de limpeza: 
                    1. Remoção dos dados NaN
                    2. Mudança do tipo da coluna de dados
                    3. Remoçãodos espaços das variáveis de texto
                    4. Formatação da coluna de datas
                    5. Limpeza das colunas de temp (Remoção do texto da variável numérica)
-
                    input: Dataframe
                    output: Fataframe
                 """
@@ -109,7 +107,7 @@ def top_delivery( df , which_ascending ):
 # IMPORTANDO DATASET
 #=====================================================================================
 #df = pd.read_csv(r'C:\Users\Administrador\Documents\repos\03_FTC\FTC_PROJETOS\analise_com_streamlit\dataset\train.csv')
-df = pd.read_csv('dataset\train.csv')
+df = pd.read_csv('dataset/train.csv')
 #=====================================================================================
 # LIMPANDO DADOS
 #=====================================================================================
