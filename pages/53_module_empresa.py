@@ -248,7 +248,7 @@ with tab2:
 with tab3:
      with st.container():
         st.markdown('### 6° Gráfico')
-
-        country_maps( df )
+        map_ = country_maps(df)
+        folium_static( map_, width=1024, height=600 )
         
         
