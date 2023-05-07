@@ -110,17 +110,17 @@ def order_share_by_week( df ):
     st.plotly_chart(fig, use_container_width=True)
     return  fig 
 
-def country_maps( df ):
+def country_maps(df):
     cols = ['City', 'Road_traffic_density', 'Delivery_location_latitude', 'Delivery_location_longitude']
     df_aux = df.loc[:, cols].groupby(['City', 'Road_traffic_density']).median().reset_index()
-    map_ = folium.Map() 
+    map_ = folium.Map()
     for index, location_info in df_aux.iterrows():
-        folium.Marker( [location_info['Delivery_location_latitude'], 
-                        location_info['Delivery_location_longitude']],
-                        popup=location_info[['City', 'Road_traffic_density']] ).add_to ( map_ )
-    
-        folium_static( map_, width=1024, height=600 )
-        return None
+        folium.Marker(
+            location=[location_info['Delivery_location_latitude'], location_info['Delivery_location_longitude']],
+            popup=f"{location_info['City']}\n{location_info['Road_traffic_density']}",
+            icon=folium.Icon(icon='pushpin')
+        ).add_to(map_)
+    return map_
 
 #----------------------- INICIO DA ESTRUTURA LÓGICA ---------------------
 #=====================================================================================
@@ -231,5 +231,5 @@ with tab2:
 with tab3:
      with st.container():
         st.markdown('### 6° Gráfico')
-
-        country_maps( df )
+        map_ = country_maps(df)
+        folium_static( map_, width=1024, height=600 )
