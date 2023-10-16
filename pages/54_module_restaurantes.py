@@ -1,4 +1,3 @@
-
 # BIBLIOTECAS 
 import pandas as pd 
 import re 
@@ -6,13 +5,14 @@ import plotly.express as px
 import streamlit as st
 from PIL import Image
 import folium
-
+import numpy as np
+from folium.plugins import MarkerCluster
 from streamlit_folium import folium_static
 
 #=====================================================================================
 # Expandindo o layut da pagina do DASHBOARD: (Empresa)
 #===================================================================================== 
-st.set_page_config( page_title='Visão Empresa', layout='wide')
+st.set_page_config( page_title='Visão Restaurantes', layout='wide')
 
 
 #=====================================================================================
@@ -21,7 +21,6 @@ st.set_page_config( page_title='Visão Empresa', layout='wide')
 def clean_code( df ):
     """
        Esta função tem a responsabilidade de limpar o dataframe
-
        Tipos de limpeza: 
        1. Remoção dos dados NaN
        2. Mudança do tipo da coluna de dados
@@ -81,14 +80,12 @@ def distrib_pedid_tráfego( df ):
     df_aux['perc_ID'] = 100 * ( df_aux['ID'] / df_aux['ID'].sum() )
             
     fig = px.pie( df_aux, values='perc_ID', names='Road_traffic_density' )   
-   
     return fig
 #gráfic scatter
 def delivery_city_traffic( df ):
     df_aux = df.loc[:, ['ID', 'City', 'Road_traffic_density']].groupby(['City', 'Road_traffic_density']).count().reset_index() 
     #Plotando o grafico de bolha: 
     fig = px.scatter( df_aux, x='City', y='Road_traffic_density', size='ID', color='City')
-    
     return fig
 def order_by_week( df ):
     #Criando coluna de semana, mostra o numero da semana que essa data está. 
@@ -107,8 +104,18 @@ def order_share_by_week( df ):
     df_aux['order_by_delivery'] = df_aux['ID'] / df_aux['Delivery_person_ID']
     # gráfico
     fig = px.line( df_aux, x='week_of_year', y='order_by_delivery' )
-    
     return  fig 
+
+# def country_maps( df ):
+#     cols = ['City', 'Road_traffic_density', 'Delivery_location_latitude', 'Delivery_location_longitude']
+#     df_aux = df.loc[:, cols].groupby(['City', 'Road_traffic_density']).median().reset_index()
+#     map_ = folium.Map() 
+#     for index, location_info in df_aux.iterrows():
+#         folium.Marker( location=['Delivery_location_latitude'], ['Delivery_location_longitude'],
+#                        popup=location_info[['City', 'Road_traffic_density']] ).add_to( map_ )
+#         return map_
+
+
 
 def country_maps(df):
     cols = ['City', 'Road_traffic_density', 'Delivery_location_latitude', 'Delivery_location_longitude']
@@ -121,6 +128,24 @@ def country_maps(df):
             icon=folium.Icon(icon='pushpin')
         ).add_to(map_)
     return map_
+
+
+# [location_info['Delivery_location_latitude'], 
+#                         location_info['Delivery_location_longitude']],
+#                         popup=location_info[['City', 'Road_traffic_density']] ).add_to( map_ )
+# def country_maps(df):
+#     map_ = folium.Map(location=[df['Delivery_location_latitude'].mean(), df['Delivery_location_longitude'].mean()], zoom_start=3, tiles='OpenStreetMap')
+
+#     marker_cluster = MarkerCluster().add_to(map_)
+
+#     for lat, lon, city, traffic in zip(df['Delivery_location_latitude'], df['Delivery_location_longitude'], df['City'], df['Road_traffic_density']):
+#         folium.Marker(
+#             location=[lat, lon],
+#             popup=f"{city}\n{traffic}",
+#             icon=folium.Icon(icon='pushpin')
+#         ).add_to(marker_cluster)
+        
+#     return map_
 
 #----------------------- INICIO DA ESTRUTURA LÓGICA ---------------------
 #=====================================================================================
@@ -156,11 +181,11 @@ st.sidebar.markdown( '## Selecione uma data limite:' )
 
 date_slider = st.sidebar.slider( 
     'Ate qual valor?',         
-    value=pd.datetime( 2022, 4 ,13 ), 
-    max_value=pd.datetime( 2022, 2 , 11 ), 
-    min_value=pd.datetime( 2022, 4 , 6 ),  
+    value=pd.datetime( "2022-4-13" ), 
+    max_value=pd.datetime( "2022-2-11" ), 
+    min_value=pd.datetime( "2022-4-6" ),  
     format='DD-MM-YYYY' )
-min_value=pd.datetime( 2022, 4 , 6 )
+min_value=pd.datetime( "2022-4-6" )
 #Exibindo o slider escolhido.
 
 
@@ -230,6 +255,7 @@ with tab2:
         
 with tab3:
      with st.container():
+
         st.markdown('### 6° Gráfico')
         map_ = country_maps(df)
         folium_static( map_, width=1024, height=600 )
